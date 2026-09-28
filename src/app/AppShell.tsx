@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 
 type AppShellProps = {
@@ -15,7 +16,12 @@ export function AppShell({ children }: AppShellProps) {
         <nav aria-label="Primary">
           <ul>
             <li>
-              <a href="#main-content">Home</a>
+              <Link to="/" activeOptions={{ exact: true }}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
             </li>
           </ul>
         </nav>
