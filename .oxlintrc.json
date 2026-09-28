@@ -1,0 +1,44 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "react"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error"
+  },
+  "env": {
+    "browser": true,
+    "es2024": true
+  },
+  "settings": {
+    "react": {
+      "version": "19.1"
+    }
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  },
+  "ignorePatterns": [
+    "dist",
+    "coverage",
+    "playwright-report",
+    "test-results",
+    "src/routeTree.gen.ts"
+  ],
+  "overrides": [
+    {
+      "files": ["vite.config.ts", "playwright.config.ts", "e2e/**/*.ts"],
+      "env": {
+        "node": true
+      }
+    },
+    {
+      "files": ["src/routes/**/*.tsx"],
+      "rules": {
+        "react/only-export-components": "off"
+      }
+    }
+  ]
+}
