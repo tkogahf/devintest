@@ -14,17 +14,23 @@ function renderAt(initialPath: string) {
 }
 
 describe('app router', () => {
-  it('renders the home page inside the app shell at the index route', async () => {
-    renderAt('/')
+  it('renders the home page inside the app shell at /sess/home', async () => {
+    renderAt('/sess/home')
 
     expect(await screen.findByRole('heading', { level: 2, name: 'Home' })).toBeInTheDocument()
     expect(screen.getByRole('banner')).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
   })
 
+  it('redirects / to /sess/home', async () => {
+    renderAt('/')
+
+    expect(await screen.findByRole('heading', { level: 2, name: 'Home' })).toBeInTheDocument()
+  })
+
   it('navigates to the about route from the primary navigation', async () => {
     const user = userEvent.setup()
-    renderAt('/')
+    renderAt('/sess/home')
 
     await user.click(await screen.findByRole('link', { name: 'About' }))
 

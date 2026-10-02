@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { AboutPage } from '@/features/about/AboutPage'
+import { AboutPage } from './-AboutPage'
 
 describe('AboutPage', () => {
   it('renders a labelled about section with its heading', () => {

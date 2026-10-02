@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { ConsolePage } from '@/features/console/ConsolePage'
+import { ConsolePage } from './-ConsolePage'
 
 describe('ConsolePage', () => {
   it('renders a labelled console section with its heading', () => {

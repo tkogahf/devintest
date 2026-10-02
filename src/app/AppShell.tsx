@@ -16,15 +16,13 @@ export function AppShell({ children }: AppShellProps) {
         <nav aria-label="Primary">
           <ul>
             <li>
-              <Link to="/" activeOptions={{ exact: true }}>
-                Home
-              </Link>
+              <Link to="/sess/home">Home</Link>
             </li>
             <li>
               <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/console">Console</Link>
+              <Link to="/sess/console">Console</Link>
             </li>
           </ul>
         </nav>

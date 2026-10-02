@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { HomePage } from '@/features/home/HomePage'
+import { HomePage } from './-HomePage'
 
 describe('HomePage', () => {
   it('renders a labelled home section with its heading', () => {

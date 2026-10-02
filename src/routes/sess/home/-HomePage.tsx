@@ -6,9 +6,6 @@ export function HomePage() {
         This is the application foundation: an app shell, a placeholder home page, and the
         verification toolchain.
       </p>
-      <p>
-        Add new functionality as a folder under <code>src/features/</code>.
-      </p>
     </section>
   )
 }
