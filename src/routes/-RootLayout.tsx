@@ -1,11 +1,6 @@
-import { Link } from '@tanstack/react-router'
-import type { ReactNode } from 'react'
+import { Link, Outlet } from '@tanstack/react-router'
 
-type AppShellProps = {
-  children: ReactNode
-}
-
-export function AppShell({ children }: AppShellProps) {
+export function RootLayout() {
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">
@@ -28,7 +23,7 @@ export function AppShell({ children }: AppShellProps) {
         </nav>
       </header>
       <main id="main-content" className="app-main" tabIndex={-1}>
-        {children}
+        <Outlet />
       </main>
       <footer className="app-footer">
         <p>Application foundation</p>

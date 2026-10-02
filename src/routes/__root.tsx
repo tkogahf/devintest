@@ -1,13 +1,5 @@
-import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
-import { AppShell } from '@/app/AppShell'
-
-function RootLayout() {
-  return (
-    <AppShell>
-      <Outlet />
-    </AppShell>
-  )
-}
+import { Link, createRootRoute } from '@tanstack/react-router'
+import { RootLayout } from './-RootLayout'
 
 function NotFound() {
   return (
