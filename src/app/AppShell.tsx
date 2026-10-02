@@ -23,6 +23,9 @@ export function AppShell({ children }: AppShellProps) {
             <li>
               <Link to="/about">About</Link>
             </li>
+            <li>
+              <Link to="/console">Console</Link>
+            </li>
           </ul>
         </nav>
       </header>
