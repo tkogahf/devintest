@@ -10,18 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as SessConsoleIndexRouteImport } from './routes/sess/console/index'
 import { Route as SessHomeIndexRouteImport } from './routes/sess/home/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutIndexRoute = AboutIndexRouteImport.update({
-  id: '/about/',
-  path: '/about/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SessConsoleIndexRoute = SessConsoleIndexRouteImport.update({
@@ -37,34 +31,30 @@ const SessHomeIndexRoute = SessHomeIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about/': typeof AboutIndexRoute
   '/sess/console/': typeof SessConsoleIndexRoute
   '/sess/home/': typeof SessHomeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutIndexRoute
   '/sess/console': typeof SessConsoleIndexRoute
   '/sess/home': typeof SessHomeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about/': typeof AboutIndexRoute
   '/sess/console/': typeof SessConsoleIndexRoute
   '/sess/home/': typeof SessHomeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about/' | '/sess/console/' | '/sess/home/'
+  fullPaths: '/' | '/sess/console/' | '/sess/home/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/sess/console' | '/sess/home'
-  id: '__root__' | '/' | '/about/' | '/sess/console/' | '/sess/home/'
+  to: '/' | '/sess/console' | '/sess/home'
+  id: '__root__' | '/' | '/sess/console/' | '/sess/home/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutIndexRoute: typeof AboutIndexRoute
   SessConsoleIndexRoute: typeof SessConsoleIndexRoute
   SessHomeIndexRoute: typeof SessHomeIndexRoute
 }
@@ -76,13 +66,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about/': {
-      id: '/about/'
-      path: '/about'
-      fullPath: '/about/'
-      preLoaderRoute: typeof AboutIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sess/console/': {
@@ -104,7 +87,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutIndexRoute: AboutIndexRoute,
   SessConsoleIndexRoute: SessConsoleIndexRoute,
   SessHomeIndexRoute: SessHomeIndexRoute,
 }

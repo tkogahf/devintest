@@ -1,6 +1,5 @@
 import { RouterProvider, createMemoryHistory, createRouter } from '@tanstack/react-router'
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import { routeTree } from '@/routeTree.gen'
 
@@ -26,15 +25,6 @@ describe('app router', () => {
     renderAt('/')
 
     expect(await screen.findByRole('heading', { level: 2, name: 'Home' })).toBeInTheDocument()
-  })
-
-  it('navigates to the about route from the primary navigation', async () => {
-    const user = userEvent.setup()
-    renderAt('/sess/home')
-
-    await user.click(await screen.findByRole('link', { name: 'About' }))
-
-    expect(await screen.findByRole('heading', { level: 2, name: 'About' })).toBeInTheDocument()
   })
 
   it('renders the not-found component for an unknown path', async () => {

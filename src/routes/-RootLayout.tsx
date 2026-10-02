@@ -14,9 +14,6 @@ export function RootLayout() {
               <Link to="/sess/home">Home</Link>
             </li>
             <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
               <Link to="/sess/console">Console</Link>
             </li>
           </ul>
