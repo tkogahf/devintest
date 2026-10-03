@@ -1,21 +1,21 @@
-type EventType =
+export type EventType =
   | 'user/click'
   | 'user/longpress'
-  | 'user/scanQr'
-  | 'user/hw'
-  | 'os'
-  | 'api'
-  | 'api/error'
-  | 'api/fetchError'
-  | 'api/parseError'
-  | 'dialog'
-  | 'page'
-  | 'error'
-  | 'tx/snapshot'
-  | 'test'
+  | 'page/opened'
+  | 'dialog/opened'
+  | 'dialog/closed'
+  | 'api/succeeded'
+  | 'api/failed'
+  | 'sse_con/opened'
+  | 'sse_con/closed'
+  | 'sse_con/failed'
+  | 'sse_msg/succeeded'
+  | 'sse_msg/failed'
 
-// TODO: implement reportEvent function
-export function reportEvent(type: EventType, payload: unknown) {
-  // TODO
-  console.log('reportEvent', type, payload)
+export function reportEvent(
+  type: EventType,
+  name: string,
+  payload: unknown,
+): void {
+  console.log(type, name, payload)
 }

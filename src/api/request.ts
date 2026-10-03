@@ -1,4 +1,5 @@
 import * as v from 'valibot'
+import { reportEvent } from './reportEvent'
 
 // ─── Error ────────────────────────────────────────────────────────────────────
 
@@ -21,47 +22,38 @@ export class ApiError extends Error {
   }
 }
 
-// ─── Events ───────────────────────────────────────────────────────────────────
-
-export type ApiEvent =
-  | {
-      type: 'success'
-      url: string
-      method: string
-      status: number
-      duration: number
-    }
-  | {
-      type: 'network'
-      url: string
-      method: string
-      duration: number
-      error: unknown
-    }
-  | {
-      type: 'parse'
-      url: string
-      method: string
-      status: number
-      duration: number
-      error: unknown
-    }
-
-export type OnApiEvent = (event: ApiEvent) => void
-
 // ─── Request ──────────────────────────────────────────────────────────────────
 
 type AnySchema = v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>
+
+type ApiErrorStage =
+  | 'fetch'
+  | 'response_read'
+  | 'body_decode'
+  | 'schema_validation'
 
 export async function request<TSchema extends AnySchema>(
   url: string,
   init: RequestInit,
   schema: TSchema,
-  onEvent?: OnApiEvent,
 ): Promise<v.InferOutput<TSchema>> {
   const method = (init.method ?? 'GET').toUpperCase()
   const sentAt = Date.now()
   const elapsed = () => Date.now() - sentAt
+
+  function fail(
+    type: ApiErrorType,
+    errorStage: ApiErrorStage,
+    cause: unknown,
+  ): never {
+    reportEvent('api/failed', url, {
+      method,
+      duration: elapsed(),
+      errorStage,
+      error: cause,
+    })
+    throw new ApiError(type, cause)
+  }
 
   let response: Response
   try {
@@ -69,46 +61,29 @@ export async function request<TSchema extends AnySchema>(
     if (method === 'GET') delete fetchInit.body
     response = await fetch(url, fetchInit)
   } catch (cause) {
-    onEvent?.({
-      type: 'network',
-      url,
-      method,
-      duration: elapsed(),
-      error: cause,
-    })
-    throw new ApiError('network', cause)
+    fail('network', 'fetch', cause)
   }
 
   const { status } = response
+  let text: string
+  try {
+    text = await response.text()
+  } catch (cause) {
+    fail('parse', 'response_read', cause)
+  }
+
   let raw: unknown
   try {
-    const text = await response.text()
     raw = text === '' ? null : JSON.parse(text)
   } catch (cause) {
-    onEvent?.({
-      type: 'parse',
-      url,
-      method,
-      status,
-      duration: elapsed(),
-      error: cause,
-    })
-    throw new ApiError('parse', cause)
+    fail('parse', 'body_decode', cause)
   }
 
   const result = v.safeParse(schema, raw)
   if (!result.success) {
-    onEvent?.({
-      type: 'parse',
-      url,
-      method,
-      status,
-      duration: elapsed(),
-      error: result.issues,
-    })
-    throw new ApiError('parse', result.issues)
+    fail('parse', 'schema_validation', result.issues)
   }
 
-  onEvent?.({ type: 'success', url, method, status, duration: elapsed() })
+  reportEvent('api/succeeded', url, { method, status, duration: elapsed() })
   return result.output
 }
