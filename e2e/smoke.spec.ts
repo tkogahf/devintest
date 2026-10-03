@@ -4,14 +4,22 @@ test('loads the app shell and home page', async ({ page }) => {
   await page.goto('/')
 
   await expect(page.getByRole('banner')).toBeVisible()
-  await expect(page.getByRole('heading', { level: 1, name: 'devintest' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'devintest' }),
+  ).toBeVisible()
   await expect(page.getByRole('main')).toBeVisible()
-  await expect(page.getByRole('heading', { level: 2, name: 'Home' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Home' }),
+  ).toBeVisible()
 })
 
-test('exposes a keyboard-reachable skip link that focuses main content', async ({ page }) => {
+test('exposes a keyboard-reachable skip link that focuses main content', async ({
+  page,
+}) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 2, name: 'Home' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Home' }),
+  ).toBeVisible()
 
   await page.keyboard.press('Tab')
   const skipLink = page.getByRole('link', { name: 'Skip to main content' })
@@ -29,18 +37,24 @@ test('navigates between the home and about routes', async ({ page }) => {
     .getByRole('link', { name: 'About' })
     .click()
   await expect(page).toHaveURL('/about')
-  await expect(page.getByRole('heading', { level: 2, name: 'About' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'About' }),
+  ).toBeVisible()
 
   await page
     .getByRole('navigation', { name: 'Primary' })
     .getByRole('link', { name: 'Home' })
     .click()
   await expect(page).toHaveURL('/')
-  await expect(page.getByRole('heading', { level: 2, name: 'Home' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Home' }),
+  ).toBeVisible()
 })
 
 test('serves the about route on direct navigation', async ({ page }) => {
   await page.goto('/about')
 
-  await expect(page.getByRole('heading', { level: 2, name: 'About' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'About' }),
+  ).toBeVisible()
 })

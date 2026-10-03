@@ -6,7 +6,9 @@ describe('HomePage', () => {
   it('renders a labelled home section with its heading', () => {
     render(<HomePage />)
 
-    expect(screen.getByRole('heading', { level: 2, name: 'Home' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Home' }),
+    ).toBeInTheDocument()
     expect(screen.getByRole('region', { name: 'Home' })).toBeInTheDocument()
   })
 })

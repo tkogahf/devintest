@@ -1,4 +1,3 @@
-
 # src/
 
 - api/
@@ -32,6 +31,10 @@
   - preflight/
   - onboarding/
   - login/
+
+- styles/
+  - global.css
+  - theme.css
 
 - ui/ (UI components)
   - Button.tsx

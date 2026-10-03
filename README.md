@@ -24,17 +24,17 @@ pnpm dev      # Vite dev server on http://localhost:5173
 
 ## Verification commands
 
-| Command                 | Purpose                                                              |
-| ----------------------- | -------------------------------------------------------------------- |
-| `pnpm check`            | Format check, lint, typecheck, and unit tests in one step            |
-| `pnpm typecheck`        | Strict TypeScript project build check (`tsc -b`)                     |
-| `pnpm lint`             | Oxlint over the whole repository (`pnpm lint:fix` to autofix)        |
-| `pnpm format`           | Oxfmt, writing files in place                                        |
-| `pnpm format:check`     | Oxfmt in check mode; fails when files are unformatted                |
-| `pnpm test`             | Vitest + React Testing Library component tests                       |
-| `pnpm test:e2e`         | Playwright smoke tests (builds and serves the app automatically)     |
-| `pnpm build`            | Type check plus production bundle into `dist/`                       |
-| `pnpm preview`          | Serve the production build locally                                   |
+| Command             | Purpose                                                          |
+| ------------------- | ---------------------------------------------------------------- |
+| `pnpm check`        | Format check, lint, typecheck, and unit tests in one step        |
+| `pnpm typecheck`    | Strict TypeScript project build check (`tsc -b`)                 |
+| `pnpm lint`         | Oxlint over the whole repository (`pnpm lint:fix` to autofix)    |
+| `pnpm format`       | Oxfmt, writing files in place                                    |
+| `pnpm format:check` | Oxfmt in check mode; fails when files are unformatted            |
+| `pnpm test`         | Vitest + React Testing Library component tests                   |
+| `pnpm test:e2e`     | Playwright smoke tests (builds and serves the app automatically) |
+| `pnpm build`        | Type check plus production bundle into `dist/`                   |
+| `pnpm preview`      | Serve the production build locally                               |
 
 ## Folder structure
 
