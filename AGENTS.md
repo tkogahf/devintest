@@ -17,6 +17,7 @@
 
 ## Verification
 
+- Follow `docs/tests.md` when choosing, writing, or classifying tests.
 - Run `pnpm check` to execute format check, lint, typecheck, and unit tests in one step. Run individual scripts (`pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm test`) when debugging a specific check.
 - Run `pnpm build` to verify the production build separately.
 - Run `pnpm test:e2e` when changing navigation or user workflows. Add or update focused tests for behavior changes.
