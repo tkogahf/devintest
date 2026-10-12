@@ -3,34 +3,30 @@ import { reportEvent } from './reportEvent'
 
 // ─── Error ────────────────────────────────────────────────────────────────────
 
-export type ApiErrorType = 'network' | 'parse'
+export type ApiErrorStage =
+  | 'fetch'
+  | 'response_read'
+  | 'body_decode'
+  | 'schema_validation'
 
 export class ApiError extends Error {
-  readonly type: ApiErrorType
+  readonly stage: ApiErrorStage
 
-  constructor(type: ApiErrorType, cause?: unknown) {
+  constructor(stage: ApiErrorStage, cause?: unknown) {
     super(
-      type === 'network'
+      stage === 'fetch'
         ? 'Network request failed'
         : 'Response validation failed',
-      {
-        cause,
-      },
+      { cause },
     )
     this.name = 'ApiError'
-    this.type = type
+    this.stage = stage
   }
 }
 
 // ─── Request ──────────────────────────────────────────────────────────────────
 
 type AnySchema = v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>
-
-type ApiErrorStage =
-  | 'fetch'
-  | 'response_read'
-  | 'body_decode'
-  | 'schema_validation'
 
 export async function request<TSchema extends AnySchema>(
   url: string,
@@ -41,18 +37,14 @@ export async function request<TSchema extends AnySchema>(
   const sentAt = Date.now()
   const elapsed = () => Date.now() - sentAt
 
-  function fail(
-    type: ApiErrorType,
-    errorStage: ApiErrorStage,
-    cause: unknown,
-  ): never {
+  function fail(stage: ApiErrorStage, cause: unknown): never {
     reportEvent('api/failed', url, {
       method,
       duration: elapsed(),
-      errorStage,
+      stage,
       error: cause,
     })
-    throw new ApiError(type, cause)
+    throw new ApiError(stage, cause)
   }
 
   let response: Response
@@ -61,7 +53,7 @@ export async function request<TSchema extends AnySchema>(
     if (method === 'GET') delete fetchInit.body
     response = await fetch(url, fetchInit)
   } catch (cause) {
-    fail('network', 'fetch', cause)
+    fail('fetch', cause)
   }
 
   const { status } = response
@@ -69,19 +61,19 @@ export async function request<TSchema extends AnySchema>(
   try {
     text = await response.text()
   } catch (cause) {
-    fail('parse', 'response_read', cause)
+    fail('response_read', cause)
   }
 
   let raw: unknown
   try {
     raw = text === '' ? null : JSON.parse(text)
   } catch (cause) {
-    fail('parse', 'body_decode', cause)
+    fail('body_decode', cause)
   }
 
   const result = v.safeParse(schema, raw)
   if (!result.success) {
-    fail('parse', 'schema_validation', result.issues)
+    fail('schema_validation', result.issues)
   }
 
   reportEvent('api/succeeded', url, { method, status, duration: elapsed() })
