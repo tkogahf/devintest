@@ -5,6 +5,7 @@
 - Read relevant code and `package.json` before editing. Follow existing patterns and keep the diff scoped.
 - Use pnpm and preserve the lockfile. Add dependencies only when needed.
 - Do not edit generated files, including `src/routeTree.gen.ts` if present.
+- Destructure function parameters directly; avoid pass-through `options` objects when parameters are used individually.
 
 ## Boundaries
 

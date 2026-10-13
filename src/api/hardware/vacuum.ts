@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { queryClient } from '../queryClient'
+import { useQuery } from '@tanstack/react-query'
+import { useOptimisticMutation } from '../useOptimisticMutation'
+import { HARDWARE_KEYS } from './queryKeys'
 import {
   getVacuumEnabled,
   getVacuumLevel,
@@ -7,10 +8,7 @@ import {
   putVacuumLevel,
 } from './vacuum.api'
 
-const KEYS = {
-  level: ['vacuum', 'level'] as const,
-  enabled: ['vacuum', 'enabled'] as const,
-}
+const KEYS = HARDWARE_KEYS.vacuum
 
 export function useVacuumLevel() {
   return useQuery({ queryKey: KEYS.level, queryFn: getVacuumLevel })
@@ -20,15 +18,16 @@ export function useVacuumEnabled() {
   return useQuery({ queryKey: KEYS.enabled, queryFn: getVacuumEnabled })
 }
 
-export async function setVacuumLevel(level: number) {
-  const data = await putVacuumLevel(level)
-  queryClient.setQueryData(KEYS.level, data)
-  return data
+export function useSetVacuumLevel() {
+  return useOptimisticMutation({
+    mutationFn: putVacuumLevel,
+    queryKey: KEYS.level,
+  })
 }
 
 export function useSetVacuumEnabled() {
-  return useMutation({
+  return useOptimisticMutation({
     mutationFn: putVacuumEnabled,
-    onSuccess: (data) => queryClient.setQueryData(KEYS.enabled, data),
+    queryKey: KEYS.enabled,
   })
 }
