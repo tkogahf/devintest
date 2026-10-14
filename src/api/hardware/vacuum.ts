@@ -11,11 +11,17 @@ import {
 const KEYS = HARDWARE_KEYS.vacuum
 
 export function useVacuumLevel() {
-  return useQuery({ queryKey: KEYS.level, queryFn: getVacuumLevel })
+  return useQuery({
+    queryKey: KEYS.level,
+    queryFn: ({ signal }) => getVacuumLevel(signal),
+  })
 }
 
 export function useVacuumEnabled() {
-  return useQuery({ queryKey: KEYS.enabled, queryFn: getVacuumEnabled })
+  return useQuery({
+    queryKey: KEYS.enabled,
+    queryFn: ({ signal }) => getVacuumEnabled(signal),
+  })
 }
 
 export function useSetVacuumLevel() {

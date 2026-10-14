@@ -18,6 +18,7 @@ Required fields:
 - dialog/closed
 
 - api/succeeded
+- api/aborted
 - api/failed
 - sse_con/opened
 - sse_con/closed
@@ -29,9 +30,9 @@ Required fields:
 
 "api/failed" payload must include "errorStage" attribute.
 
+- "body_encode"
 - "fetch"
 - "response_read"
-- "content_type"
 - "body_decode"
 - "schema_validation"
 

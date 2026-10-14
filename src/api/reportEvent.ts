@@ -5,6 +5,7 @@ export type EventType =
   | 'dialog/opened'
   | 'dialog/closed'
   | 'api/succeeded'
+  | 'api/aborted'
   | 'api/failed'
   | 'sse_con/opened'
   | 'sse_con/closed'
