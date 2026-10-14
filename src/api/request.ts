@@ -4,11 +4,11 @@ import { reportEvent } from './reportEvent'
 // ─── Error ────────────────────────────────────────────────────────────────────
 
 export type ApiErrorStage =
-  | 'body_encode'
+  | 'request_encode'
   | 'fetch'
   | 'response_read'
-  | 'body_decode'
-  | 'schema_validation'
+  | 'response_decode'
+  | 'response_validation'
 
 export class ApiError extends Error {
   readonly stage: ApiErrorStage
@@ -60,7 +60,7 @@ export async function request<TSchema extends AnySchema>(
     try {
       fetchInit.body = JSON.stringify(body)
     } catch (cause) {
-      fail('body_encode', cause)
+      fail('request_encode', cause)
     }
     fetchInit.headers = { 'Content-Type': 'application/json' }
   }
@@ -88,12 +88,12 @@ export async function request<TSchema extends AnySchema>(
   try {
     raw = text === '' ? null : JSON.parse(text)
   } catch (cause) {
-    fail('body_decode', cause)
+    fail('response_decode', cause)
   }
 
   const result = v.safeParse(schema, raw)
   if (!result.success) {
-    fail('schema_validation', result.issues)
+    fail('response_validation', result.issues)
   }
 
   reportEvent('api/succeeded', url, { method, status, duration: elapsed() })

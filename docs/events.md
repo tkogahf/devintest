@@ -30,11 +30,11 @@ Required fields:
 
 "api/failed" payload must include "errorStage" attribute.
 
-- "body_encode"
+- "request_encode"
 - "fetch"
 - "response_read"
-- "body_decode"
-- "schema_validation"
+- "response_decode"
+- "response_validation"
 
 ### SSE events
 
