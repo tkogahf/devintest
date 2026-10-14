@@ -24,7 +24,6 @@
 }
 
 .dev-viewport {
-  container-type: inline-size;
   aspect-ratio: 3 / 4;
   position: relative;
   flex-shrink: 0;

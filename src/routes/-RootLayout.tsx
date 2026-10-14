@@ -8,7 +8,7 @@ export function RootLayout() {
         Skip to main content
       </a>
       <header className="app-header">
-        <h1>devintest</h1>
+        <h1>Title</h1>
         <nav aria-label="Primary">
           <ul>
             <li>

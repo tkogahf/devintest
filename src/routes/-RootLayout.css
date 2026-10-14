@@ -5,6 +5,10 @@
   min-height: 100%;
 }
 
+.app-shell > * {
+  font-size: 2cqw;
+}
+
 .app-header {
   display: flex;
   align-items: center;
@@ -16,7 +20,6 @@
 }
 
 .app-header h1 {
-  font-size: 1.125rem;
   margin: 0;
 }
 
@@ -40,7 +43,6 @@
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--color-border);
   color: var(--color-muted);
-  font-size: 0.875rem;
 }
 
 .skip-link {
