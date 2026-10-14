@@ -1,4 +1,5 @@
 import { Link, createRootRoute } from '@tanstack/react-router'
+import { DevPreview } from './-dev/DevPreview'
 import { RootLayout } from './-RootLayout'
 
 function NotFound() {
@@ -11,7 +12,18 @@ function NotFound() {
   )
 }
 
+function Root() {
+  if (import.meta.env.DEV) {
+    return (
+      <DevPreview>
+        <RootLayout />
+      </DevPreview>
+    )
+  }
+  return <RootLayout />
+}
+
 export const Route = createRootRoute({
-  component: RootLayout,
+  component: Root,
   notFoundComponent: NotFound,
 })

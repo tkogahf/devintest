@@ -7,6 +7,7 @@
 - Do not edit generated files, including `src/routeTree.gen.ts` if present.
 - Destructure function parameters directly; avoid pass-through `options` objects when parameters are used individually.
 - Source files must use LF line endings. `.gitattributes` enforces this via Git; do not save files with CRLF.
+- Use `cqi` for all sizes inside the app viewport so they scale proportionally with the device viewport container. `RootLayout` has `container-type: inline-size`, making it the reference container; `cqi` equals 1% of its inline size in both dev and prod. Do not use `em`, `rem`, `vw`, or `vh` for viewport-internal sizing.
 
 ## Boundaries
 
