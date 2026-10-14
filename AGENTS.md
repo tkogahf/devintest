@@ -6,6 +6,7 @@
 - Use pnpm and preserve the lockfile. Add dependencies only when needed.
 - Do not edit generated files, including `src/routeTree.gen.ts` if present.
 - Destructure function parameters directly; avoid pass-through `options` objects when parameters are used individually.
+- Source files must use LF line endings. `.gitattributes` enforces this via Git; do not save files with CRLF.
 
 ## Boundaries
 

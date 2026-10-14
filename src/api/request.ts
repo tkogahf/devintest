@@ -14,12 +14,7 @@ export class ApiError extends Error {
   readonly stage: ApiErrorStage
 
   constructor(stage: ApiErrorStage, cause?: unknown) {
-    super(
-      stage === 'fetch'
-        ? 'Network request failed'
-        : 'Response validation failed',
-      { cause },
-    )
+    super('API request failed', { cause })
     this.name = 'ApiError'
     this.stage = stage
   }
