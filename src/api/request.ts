@@ -31,19 +31,21 @@ type AnySchema = v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
-export async function request<TSchema extends AnySchema>({
-  url,
-  method,
-  body,
-  schema,
-  signal,
-}: {
-  url: string
-  method: RequestMethod
-  body?: unknown
-  schema: TSchema
-  signal?: AbortSignal
-}): Promise<v.InferOutput<TSchema>> {
+export type SignalInit = { signal?: AbortSignal }
+
+export type ApiRequestInit =
+  | ({ method: 'GET' } & SignalInit)
+  | { method: Exclude<RequestMethod, 'GET'>; body?: unknown }
+
+export async function request<TSchema extends AnySchema>(
+  url: string,
+  init: ApiRequestInit,
+  schema: TSchema,
+): Promise<v.InferOutput<TSchema>> {
+  const { method } = init
+  const body = 'body' in init ? init.body : undefined
+  const signal = 'signal' in init ? init.signal : undefined
+
   const sentAt = Date.now()
   const elapsed = () => Date.now() - sentAt
 
@@ -57,20 +59,20 @@ export async function request<TSchema extends AnySchema>({
     throw new ApiError(stage, cause)
   }
 
-  const init: RequestInit = { method }
-  if (signal !== undefined) init.signal = signal
+  const fetchInit: RequestInit = { method }
+  if (signal !== undefined) fetchInit.signal = signal
   if (body !== undefined) {
     try {
-      init.body = JSON.stringify(body)
+      fetchInit.body = JSON.stringify(body)
     } catch (cause) {
       fail('body_encode', cause)
     }
-    init.headers = { 'Content-Type': 'application/json' }
+    fetchInit.headers = { 'Content-Type': 'application/json' }
   }
 
   let response: Response
   try {
-    response = await fetch(url, init)
+    response = await fetch(url, fetchInit)
   } catch (cause) {
     if (cause instanceof DOMException && cause.name === 'AbortError') {
       reportEvent('api/aborted', url, { method, duration: elapsed() })
